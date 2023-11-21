@@ -1,8 +1,8 @@
 ﻿using Nummy.CodeLogger.Data.Entitites;
 
-namespace Nummy.HttpLogger.Data.Services;
+namespace Nummy.CodeLogger.Data.Services;
 
-internal interface INummyCodeLoggerService
+public interface INummyCodeLoggerService
 {
     Task LogErrorAsync(string title, string? description = null);
     Task LogErrorAsync(Exception ex);

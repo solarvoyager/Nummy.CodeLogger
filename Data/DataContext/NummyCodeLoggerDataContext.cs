@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Nummy.HttpLogger.Data.Entitites;
+using Nummy.CodeLogger.Data.Entitites;
 
-namespace Nummy.HttpLogger.Data.DataContext;
+namespace Nummy.CodeLogger.Data.DataContext;
 
 internal class NummyCodeLoggerDataContext : DbContext
 {

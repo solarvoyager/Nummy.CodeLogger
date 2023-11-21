@@ -1,10 +1,10 @@
-﻿using Nummy.HttpLogger.Models;
+﻿using Nummy.CodeLogger.Models;
 
-namespace Nummy.HttpLogger.Utils;
+namespace Nummy.CodeLogger.Utils;
 
-internal class NummyHttpLoggerOptionsValidationException : Exception
+internal class NummyCodeLoggerOptionsValidationException : Exception
 {
-    public NummyHttpLoggerOptionsValidationException()
+    public NummyCodeLoggerOptionsValidationException()
         : base($"{nameof(NummyCodeLoggerOptions.DatabaseConnectionString)} must have a valid connection string")
     {
     }

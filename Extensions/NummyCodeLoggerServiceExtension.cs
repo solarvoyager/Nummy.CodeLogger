@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Nummy.HttpLogger.Data.DataContext;
-using Nummy.HttpLogger.Data.Services;
-using Nummy.HttpLogger.Middleware;
-using Nummy.HttpLogger.Models;
-using Nummy.HttpLogger.Utils;
+using Nummy.CodeLogger.Data.DataContext;
+using Nummy.CodeLogger.Data.Services;
+using Nummy.CodeLogger.Models;
+using Nummy.CodeLogger.Utils;
 
-namespace Nummy.HttpLogger.Extensions;
+namespace Nummy.CodeLogger.Extensions;
 
 public static class NummyCodeLoggerServiceExtension
 {
-    public static IServiceCollection AddNummyCodeLogger(this IServiceCollection services, Action<NummyCodeLoggerOptions> options)
+    public static IServiceCollection AddNummyCodeLogger(this IServiceCollection services,
+        Action<NummyCodeLoggerOptions> options)
     {
         var codeLoggerOptions = new NummyCodeLoggerOptions();
         options.Invoke(codeLoggerOptions);
@@ -25,7 +24,7 @@ public static class NummyCodeLoggerServiceExtension
 
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-        services.AddScoped<INummyCodeLoggerService, NummyHttpLoggerService>();
+        services.AddScoped<INummyCodeLoggerService, NummyCodeLoggerService>();
 
         // Automatically apply migrations during startup
         using var serviceScope = services.BuildServiceProvider().CreateScope();

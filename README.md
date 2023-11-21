@@ -1,19 +1,19 @@
-# Nummy Http Request & Response Logging package for .NET Core
+# Nummy Logging package for .NET Core
 
-[![NuGet Version](https://img.shields.io/nuget/v/Nummy.HttpLogger.svg)](https://www.nuget.org/packages/Nummy.HttpLogger/)
+[![NuGet Version](https://img.shields.io/nuget/v/Nummy.CodeLogger.svg)](https://www.nuget.org/packages/Nummy.CodeLogger/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Overview
 
-This is a .NET Core library for http request and response logging in your application.
+This is a .NET Core library for logging in your application.
 
 ## Installation
 
-https://www.nuget.org/packages/Nummy.HttpLogger
+https://www.nuget.org/packages/Nummy.CodeLogger
 Or install the package via NuGet Package Manager Console:
 
 ```bash
-Install-Package Nummy.HttpLogger
+Install-Package Nummy.CodeLogger
 ```
 
 ## Getting Started
@@ -28,14 +28,11 @@ using Nummy.HttpLogger.Models;
 ```csharp
 // .. other configurations
 
-builder.Services.AddNummyHttpLogger(options =>
+builder.Services.AddNummyCodeLogger(options =>
 {
     // Configure options here
     // Example: 
-    options.EnableRequestLogging = true;
-    options.EnableResponseLogging = true;
-    options.ExcludeContainingPaths = new []{"api/user/login", "statistics", "user/create" };
-    options.DatabaseType = NummyHttpLoggerDatabaseType.PostgreSql;
+    options.DatabaseType = NummyCodeLoggerDatabaseType.PostgreSql;
     options.DatabaseConnectionString = "your-database-connection-string";
 });
 
@@ -43,23 +40,9 @@ builder.Services.AddNummyHttpLogger(options =>
 var app = builder.Build();
 ```
 
-Use Middleware: In the Configure method of your `Startup.cs` file, add the following line:
+No need to Use Middleware.
 
-```csharp
-using Nummy.HttpLogger.Extensions;
-```
-
-```csharp
-var app = builder.Build();
-
-// .. other configurations
-
-app.UseNummyHttpLogger();
-
-// .. other middleware
-```
-
-Now, your application is set up to log http request and responses using the Nummy Http Logger.
+Now, your application is set up to log using the Nummy Code Logger.
 
 ## License
 
