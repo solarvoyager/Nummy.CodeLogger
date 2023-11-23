@@ -16,8 +16,4 @@ internal class NummyCodeLoggerDataContext : DbContext
         optionsBuilder.UseLazyLoadingProxies();
         base.OnConfiguring(optionsBuilder);
     }
-
-    // Define your DbSet properties here
-    // Example:
-    // public DbSet<User> Users { get; set; }
 }

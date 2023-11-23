@@ -6,6 +6,7 @@
 ## Overview
 
 This is a .NET Core library for logging in your application.
+Just set connection string of your database then package will create and manage required tables for itself.
 
 ## Installation
 
@@ -33,7 +34,7 @@ builder.Services.AddNummyCodeLogger(options =>
     // Configure options here
     // Example: 
     options.DatabaseType = NummyCodeLoggerDatabaseType.PostgreSql;
-    options.DatabaseConnectionString = "your-database-connection-string";
+    options.DatabaseConnectionString = "Host=localhost;Port=5432;Database=nummy_db;Username=postgres;Password=postgres;IncludeErrorDetail=true;";
 });
 
 // .. other configurations
