@@ -1,16 +1,14 @@
-﻿using Nummy.CodeLogger.Data.DataContext;
+﻿using System.Net.Http.Json;
+using Microsoft.AspNetCore.Http;
 using Nummy.CodeLogger.Data.Entitites;
+using Nummy.CodeLogger.Utils;
 
 namespace Nummy.CodeLogger.Data.Services;
 
-internal class NummyCodeLoggerService : INummyCodeLoggerService
+internal class NummyCodeLoggerService(IHttpClientFactory clientFactory, IHttpContextAccessor contextAccessor)
+    : INummyCodeLoggerService
 {
-    private readonly NummyCodeLoggerDataContext _nummyDataContext;
-
-    public NummyCodeLoggerService(NummyCodeLoggerDataContext nummyDataContext)
-    {
-        _nummyDataContext = nummyDataContext;
-    }
+    private readonly HttpClient _client = clientFactory.CreateClient(NummyConstants.ClientName);
 
     public async Task LogErrorAsync(string title, string? description = null)
     {
@@ -46,11 +44,12 @@ internal class NummyCodeLoggerService : INummyCodeLoggerService
     {
         var data = new NummyCodeLog
         {
-            LogGuid = Guid.NewGuid().ToString(),
+            TraceIdentifier = contextAccessor.HttpContext.TraceIdentifier,
             CreatedAt = DateTimeOffset.Now,
             LogLevel = logLevel,
             Title = title,
-            Description = description
+            Description = description,
+            IsDeleted = false
         };
 
         await InsertLogAsync(data);
@@ -60,14 +59,15 @@ internal class NummyCodeLoggerService : INummyCodeLoggerService
     {
         var data = new NummyCodeLog
         {
-            LogGuid = Guid.NewGuid().ToString(),
+            TraceIdentifier = contextAccessor.HttpContext.TraceIdentifier,
             CreatedAt = DateTimeOffset.Now,
             LogLevel = logLevel,
             Title = ex.Message,
             StackTrace = ex.StackTrace,
             InnerException = ex.InnerException?.ToString(),
             ExceptionType = ex.GetType().FullName,
-            Description = ex.ToString()
+            Description = ex.ToString(),
+            IsDeleted = false
         };
 
         await InsertLogAsync(data);
@@ -75,7 +75,6 @@ internal class NummyCodeLoggerService : INummyCodeLoggerService
 
     private async Task InsertLogAsync(NummyCodeLog data)
     {
-        await _nummyDataContext.NummyCodeLogs.AddAsync(data);
-        await _nummyDataContext.SaveChangesAsync();
+        await _client.PostAsJsonAsync(NummyConstants.CodeLogAddUrl, data);
     }
 }

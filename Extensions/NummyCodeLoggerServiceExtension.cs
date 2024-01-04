@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Nummy.CodeLogger.Data.DataContext;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Nummy.CodeLogger.Data.Services;
-using Nummy.CodeLogger.Models;
 using Nummy.CodeLogger.Utils;
 
 namespace Nummy.CodeLogger.Extensions;
@@ -15,31 +12,20 @@ public static class NummyCodeLoggerServiceExtension
         var codeLoggerOptions = new NummyCodeLoggerOptions();
         options.Invoke(codeLoggerOptions);
 
-        NummyModelValidator.ValidateNummyCodeLoggerOptions(codeLoggerOptions);
+        NummyValidators.ValidateNummyCodeLoggerOptions(codeLoggerOptions);
 
         services.Configure(options);
 
-        services.AddDbContext<NummyCodeLoggerDataContext>(dbOptions =>
-            dbOptions.UseNpgsql(codeLoggerOptions.DatabaseConnectionString));
+        services.AddHttpContextAccessor();
 
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        services.AddSingleton<INummyCodeLoggerService, NummyCodeLoggerService>();
 
-        services.AddScoped<INummyCodeLoggerService, NummyCodeLoggerService>();
-
-        // Automatically apply migrations during startup
-        using var serviceScope = services.BuildServiceProvider().CreateScope();
+        services.AddHttpClient(NummyConstants.ClientName, config =>
         {
-            var dbContext = serviceScope.ServiceProvider.GetRequiredService<NummyCodeLoggerDataContext>();
-
-            // Ensure the database exists, and create it if not
-            //dbContext.Database.EnsureCreated();
-
-            if (dbContext.Database.GetPendingMigrations().Any())
-            {
-                // Apply pending migrations
-                dbContext.Database.Migrate();
-            }
-        }
+            config.BaseAddress = new Uri(codeLoggerOptions.DsnUrl!);
+            config.Timeout = new TimeSpan(0, 0, 30);
+            config.DefaultRequestHeaders.Clear();
+        });
 
         return services;
     }

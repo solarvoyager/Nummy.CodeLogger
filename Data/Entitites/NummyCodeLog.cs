@@ -2,8 +2,7 @@
 
 internal class NummyCodeLog
 {
-    public int NummyCodeLogId { get; set; }
-    public required string LogGuid { get; set; }
+    public string? TraceIdentifier { get; set; }
     public required NummyCodeLogLevel LogLevel { get; set; }
     public required string Title { get; set; }
     public string? Description { get; set; }
@@ -12,5 +11,5 @@ internal class NummyCodeLog
     public string? ExceptionType { get; set; }
     public required DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
-    public bool IsDeleted { get; set; } = false;
+    public required bool IsDeleted { get; set; }
 }
