@@ -45,11 +45,9 @@ internal class NummyCodeLoggerService(IHttpClientFactory clientFactory, IHttpCon
         var data = new NummyCodeLog
         {
             TraceIdentifier = contextAccessor.HttpContext.TraceIdentifier,
-            CreatedAt = DateTimeOffset.Now,
             LogLevel = logLevel,
             Title = title,
-            Description = description,
-            IsDeleted = false
+            Description = description
         };
 
         await InsertLogAsync(data);
@@ -60,14 +58,12 @@ internal class NummyCodeLoggerService(IHttpClientFactory clientFactory, IHttpCon
         var data = new NummyCodeLog
         {
             TraceIdentifier = contextAccessor.HttpContext.TraceIdentifier,
-            CreatedAt = DateTimeOffset.Now,
             LogLevel = logLevel,
             Title = ex.Message,
             StackTrace = ex.StackTrace,
             InnerException = ex.InnerException?.ToString(),
             ExceptionType = ex.GetType().FullName,
-            Description = ex.ToString(),
-            IsDeleted = false
+            Description = ex.ToString()
         };
 
         await InsertLogAsync(data);
