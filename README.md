@@ -68,17 +68,21 @@ public ConstructorOfYourClass(INummyCodeLoggerService loggerService)
 And use it like:
 
 ```csharp
+// log infos
 await _loggerService.LogInfoAsync("your-info-title", "your-info-description");
 // or
 await _loggerService.LogInfoAsync(new ArgumentNullException(nameof(YourClass.Property)));
 
+// log errors
 await _loggerService.LogErrorAsync("your-error-title", "your-error-description");
 // or
 await _loggerService.LogErrorAsync(new ArgumentNullException(nameof(YourClass.Property)));
 
-// customized versions
+// log customized
 await _loggerService.LogAsync(NummyCodeLogLevel.Debug, new ArgumentNullException(nameof(YourClass.Property)));
 await _loggerService.LogAsync(NummyCodeLogLevel.Debug, "custom-title", "custom-description");
+
+// and log much more ..
 ```
 
 ## License
