@@ -22,7 +22,7 @@ public static class NummyCodeLoggerServiceExtension
 
         services.AddHttpClient(NummyConstants.ClientName, config =>
         {
-            config.BaseAddress = new Uri(codeLoggerOptions.DsnUrl!);
+            config.BaseAddress = new Uri(codeLoggerOptions.NummyServiceUrl!);
             config.Timeout = new TimeSpan(0, 0, 30);
             config.DefaultRequestHeaders.Clear();
         });

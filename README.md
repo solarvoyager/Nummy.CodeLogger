@@ -9,6 +9,8 @@
 This is a .NET Core library for logging in your application.
 Just set connection string of your database then package will create and manage required tables for itself.
 
+---
+
 ## Installation
 
 [Nuget - Nummy.CodeLogger](https://www.nuget.org/packages/Nummy.CodeLogger)
@@ -21,11 +23,13 @@ Install-Package Nummy.CodeLogger
 
 ## Getting Started
 
-#### 1. Run Nummy on your Docker and get DSN url of your local instance
+#### 1. Run Nummy on your Docker
 
 [Here is tutorial](https://github.com/solarvoyager/Nummy/blob/master/README.md)
 
-#### 2. Configure your application
+#### 2. Add your application in Nummy
+
+#### 3. Configure in your project
 
 In your `Program.cs` file add the following line:
 
@@ -37,16 +41,18 @@ using Nummy.HttpLogger.Models;
 ```csharp
 // .. other configurations
 
-builder.Services.AddNummyCodeLogger(options => 
-    options.DsnUrl = "your-nummy-dsn-url");
+builder.Services.AddNummyCodeLogger(options =>
+{
+    // from your application's configuration section in Nummy
+    options.NummyServiceUrl = "your-nummy-service-url";
+    options.ApplicationId = "your-nummy-application-id";
+}
 
 // .. other configurations
 var app = builder.Build();
 ```
 
-#### 3. Now, your application is set up to log using the Nummy Code Logger.
-
-## Usage
+#### 4. Now, your application is set up to log using the Nummy Code Logger.
 
 Inject `INummyCodeLoggerService` as a normal service:
 

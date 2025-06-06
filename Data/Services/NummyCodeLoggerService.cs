@@ -1,11 +1,16 @@
 ﻿using System.Net.Http.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Nummy.CodeLogger.Data.Entitites;
 using Nummy.CodeLogger.Utils;
 
 namespace Nummy.CodeLogger.Data.Services;
 
-internal class NummyCodeLoggerService(IHttpClientFactory clientFactory, IHttpContextAccessor contextAccessor)
+internal class NummyCodeLoggerService(
+    IHttpClientFactory clientFactory,
+    IHttpContextAccessor contextAccessor,
+    IOptions<NummyCodeLoggerOptions> options
+)
     : INummyCodeLoggerService
 {
     private readonly HttpClient _client = clientFactory.CreateClient(NummyConstants.ClientName);
@@ -45,6 +50,7 @@ internal class NummyCodeLoggerService(IHttpClientFactory clientFactory, IHttpCon
         var data = new NummyCodeLog
         {
             TraceIdentifier = contextAccessor.HttpContext.TraceIdentifier,
+            ApplicationId = options.Value.ApplicationId,
             LogLevel = logLevel,
             Title = title,
             Description = description
@@ -58,6 +64,7 @@ internal class NummyCodeLoggerService(IHttpClientFactory clientFactory, IHttpCon
         var data = new NummyCodeLog
         {
             TraceIdentifier = contextAccessor.HttpContext.TraceIdentifier,
+            ApplicationId = options.Value.ApplicationId,
             LogLevel = logLevel,
             Title = ex.Message,
             StackTrace = ex.StackTrace,

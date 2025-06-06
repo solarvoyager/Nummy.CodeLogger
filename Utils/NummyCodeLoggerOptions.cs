@@ -2,5 +2,6 @@
 
 public class NummyCodeLoggerOptions
 {
-    public string? DsnUrl { get; set; }
+    public string ApplicationId { get; set; }
+    public string NummyServiceUrl { get; set; }
 }
