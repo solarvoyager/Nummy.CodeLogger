@@ -7,7 +7,6 @@
 ## Overview
 
 This is a .NET Core library for logging in your application.
-Just set connection string of your database then package will create and manage required tables for itself.
 
 ---
 
