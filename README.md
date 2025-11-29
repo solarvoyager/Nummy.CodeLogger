@@ -33,8 +33,7 @@ Install-Package Nummy.CodeLogger
 In your `Program.cs` file add the following line:
 
 ```csharp
-using Nummy.HttpLogger.Extensions;
-using Nummy.HttpLogger.Models;
+using Nummy.CodeLogger.Extensions;
 ```
 
 ```csharp
@@ -77,11 +76,9 @@ await _loggerService.LogErrorAsync("your-error-title", "your-error-description")
 // or
 await _loggerService.LogErrorAsync(new ArgumentNullException(nameof(YourClass.Property)));
 
-// log customized
+// log custom
 await _loggerService.LogAsync(NummyCodeLogLevel.Debug, new ArgumentNullException(nameof(YourClass.Property)));
 await _loggerService.LogAsync(NummyCodeLogLevel.Debug, "custom-title", "custom-description");
-
-// and log much more ..
 ```
 
 ## License
